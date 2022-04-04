@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:test_task/Screen/search_bar.dart';
 import 'package:test_task/models/product.dart';
 import 'package:test_task/productTile.dart';
 
 import '../controller/product_controller.dart';
+import '../custom_nav_bar.dart';
+
 
 class HomePage extends StatelessWidget {
   //const HomePage({Key? key}) : super(key: key);
-  final ProductController productController=Get.put(ProductController());
+  final ProductController productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,8 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 50),
             Expanded(
               child: Obx(() {
-                if(productController.isLoading.value)
-                  return CircularProgressIndicator();
+                if (productController.isLoading.value)
+                  return Center(child: CircularProgressIndicator());
                 return StaggeredGridView.countBuilder(
                     crossAxisCount: 3,
                     itemCount: productController.listOfProducts.length,
@@ -37,36 +40,23 @@ class HomePage extends StatelessWidget {
                       return ProductTile(
                           productController.listOfProducts[index]);
                     },
-                    staggeredTileBuilder: (index) =>
-                    index % 10 == 0
+                    staggeredTileBuilder: (index) => index % 10 == 0
                         ? StaggeredTile.count(2, 2)
                         : StaggeredTile.count(1, 1));
-
-              }
-              ),
+              }),
             ),
-
           ],
+        ),
+        bottomNavigationBar: CustomNavBar(
+
         ));
   }
 }
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search in Swipexyz",
-        hintStyle: TextStyle(color: Color(0xff94959d)),
-        prefixIcon: Icon(Icons.search, color: Color(0xff94959d), size: 30.0),
-        //disabledBorder:InputBorder.none,
-        border: InputBorder.none,
-        fillColor: Colors.white,
-      ),
-    );
-  }
-}
+
+
+
+
+
+
